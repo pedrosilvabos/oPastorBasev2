@@ -1,4 +1,4 @@
-#include "net/LteConnectionManager.h"
+#include "net/lteManager/lteConnectionManager.h"
 #include <ESP_SSLClient.h>
 #include <ArduinoJson.h>
 
