@@ -9,6 +9,14 @@ LteConnectionManager::~LteConnectionManager() {
   delete ssl_;
 }
 
+bool LteConnectionManager::sendSms(const String& number, const String& text) {
+  // Radio must be on and registered. PPP not required.
+  if (!ensureConnected()) return false;
+  bool ok = modem_.sendSMS(number, text);
+
+  return ok;
+}
+
 void LteConnectionManager::begin() {
   Serial.begin(115200);
   delay(100);

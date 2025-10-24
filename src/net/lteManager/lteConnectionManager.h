@@ -15,6 +15,7 @@ class LteConnectionManager {
   void begin();
   bool ensureConnected();
   bool postTelemetry(const Telemetry& t);
+  bool sendSms(const String& number, const String& text);
   void disconnect();
 
  private:
