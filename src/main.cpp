@@ -36,6 +36,7 @@ void loop() {
 
   if (lte.ensureConnected()) {
     (void)lte.postTelemetry(sampleTelemetry());
+    //  (void)lte.sendSms("+351969773385", "oPastor: base reported and will sleep.");
   } else {
     delay(15000);
   }
