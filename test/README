@@ -1,0 +1,36 @@
+# 🔧 TODO / Next Steps (MVP Path)
+
+## 🐮 Cow Node Hardware
+- [ ] Finalize **vest/harness** design to securely mount sensors and electronics
+- [ ] Add **motion/IMU sensor** (e.g. BMA400 or MPU9250) to cow node
+- [ ] Integrate and test GPS data on the cow node (position + stability)
+- [ ] Optimize cow deep sleep + wake scheduling to save battery
+
+## 📶 Base Station Enhancements
+- [ ] Add **battery voltage monitoring** for external 3-cell battery pack (via voltage divider or inline ADC)
+- [ ] Consider **separate power telemetry** path for solar/BMS metrics
+- [ ] Optionally log `RSSI`/`SNR` on incoming LoRa packets for diagnostics
+
+## 🔄 Communication Architecture
+- [ ] **Invert polling logic**: base station sends `POLL:<id>`, cow wakes, responds, and gets `WAKE_IN:<secs>` back
+- [ ] Implement hash/timestamp on `WAKE_IN` to prevent stale wake schedules
+- [ ] Define fallback behavior if base-to-node packet is lost
+
+## 📡 Network & Infra
+- [ ] Test fallback logic if no network available (retry window or SMS fallback)
+- [ ] Define a **"no cloud" local-only fallback mode** (for offline farms)
+- [ ] Document how to configure **APN**, **DuckDNS**, and HTTP endpoint
+
+## 🔒 Provisioning & Identity
+- [ ] Add expiration or reset logic for old `Preferences` cow ID pairs
+- [ ] Optionally support **manual override** of MAC-to-ID mappings
+
+## 💻 Backend/API
+- [ ] Ensure backend **deduplicates** incoming cow entries based on timestamp or ID
+- [ ] Explore real-time MQTT forwarding (optional, future tier)
+- [ ] Add battery alert threshold (e.g., warn if cow node < 3.6V)
+
+## 📐 MVP Definition
+- [ ] One functional cow node + web panel visualization
+- [ ] Offline provisioning, stable LoRa transmission, 3G upload
+- [ ] Accurate base + cow battery telemetry
