@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
-#include "config/NetConfig.h"
-#include "model/Telemetry.h"
+#include "config/netConfig.h"
+#include "model/telemetry.h"
 
 class ESP_SSLClient;  // fwd declare
 
