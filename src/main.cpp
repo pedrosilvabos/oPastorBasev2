@@ -22,7 +22,7 @@ void setup() {
       delay(1000);
     }
   }
-
+  app.attachLte(&lte);
   if (!lte.ensureConnected()) {
     Serial.println("Initial connect failed. Deep sleeping.");
     esp_sleep_enable_timer_wakeup(30ULL * 1000000ULL);
@@ -35,15 +35,21 @@ void loop() {
   serviceLoRaFor(app, 2000);
 
   if (lte.ensureConnected()) {
-    (void)lte.postTelemetry(sampleTelemetry());
-    //  (void)lte.sendSms("+351969773385", "oPastor: base reported and will sleep.");
+    if (app.hasBatchReady()) {
+      app.postBatchToCloud();  // posts real buffered lines
+    }
   } else {
     delay(15000);
   }
-
-  lte.shutdown();
-
-  Serial.println("Entering deep sleep for 30 seconds...");
-  esp_sleep_enable_timer_wakeup(30ULL * 1000000ULL);
-  esp_deep_sleep_start();
+  // Sleep gate: only when idle and nothing left to send/post
+  if (app.readyToSleep()) {
+    uint32_t ms = app.timeUntilNextSyncMs();
+    // guard: if zero or tiny, skip sleep this turn
+    if (ms > 1500) {
+      lte.shutdown();  // power off modem cleanly
+      Serial.printf("🌙 Deep sleep for %lu ms\n", (unsigned long)ms);
+      esp_sleep_enable_timer_wakeup((uint64_t)ms * 1000ULL);
+      esp_deep_sleep_start();
+    }
+  }
 }

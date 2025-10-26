@@ -22,11 +22,16 @@ void LteConnectionManager::begin() {
   delay(100);
   setupPins_();
   setFlightMode_(false);
-  powerOnModem_();
+  // powerOnModem_();
 
+  if (!isConnected_) {
+    powerOnModem_();
+    delay(5000);
+  }
   serial_.begin(UART_BAUD, SERIAL_8N1, MODEM_RX, MODEM_TX);
 
   Serial.print("AT probe...");
+
   if (!modem_.testAT(10000)) {
     Serial.println("fail. Power-cycling once.");
     powerOnModem_();
