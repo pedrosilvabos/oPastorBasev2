@@ -16,7 +16,7 @@ bool LoRaManager::begin() {
   LoRa.setCodingRate4(LORA_CR);
   LoRa.setSyncWord(LORA_SYNC_WORD);
   LoRa.setTxPower(LORA_TX_POWER, PA_OUTPUT_PA_BOOST_PIN);
-  LoRa.disableCrc();  // enable if your nodes use CRC
+  LoRa.enableCrc();  // match node
 
   return true;
 }

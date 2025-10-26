@@ -18,7 +18,7 @@ struct Telemetry {
   int baseBatteryPercent;
   bool isAlerted;
   int alertType;
-  int nodeVbus;
+  float nodeVbus;
   int nodeHasBattery;
 };
 
